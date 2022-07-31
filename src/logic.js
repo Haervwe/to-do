@@ -1,32 +1,38 @@
 import date from "date-and-time";
 
-const ChoreLogicBundle = (()=>{
-    let choresArray = [];
-    let id;
-    //if (localStorage.getItem("data") == null) {
-      //  localStorage.setItem("data",JSON.stringify([]));
-        //choresArray = JSON.parse(localStorage.getItem("data"));
-        id = 0;
-   // } else {
-     //   choresArray = JSON.parse(localStorage.getItem("data"));
-       // id = choresArray[-1].id;
-    //}
-
-    const ToDoFactory = (action, esTime, priority)=>{
-        id++;
-        let creation = new Date();
-        var status = "incomplete"
+const ChoreLogic = (()=>{
+    
+    const ToDoFactory = (action, esTime, priority, creation, previusid, previousStatus)=>{
+        let internalId;
+        let status;
+        if (creation == null || creation == undefined){
+            creation = new Date();
+        }else {
+            creation = new Date(creation);
+        }
+        if(previusid == null || previusid == undefined){
+            id++;
+            internalId = id;
+        } else {
+            internalId = previusid;
+        }
+        if(previousStatus == null || previousStatus == undefined){
+            status = "incomplete"
+        } else {
+            status = previousStatus;
+        }
         //const pattern = date.compile('ddd, MMM DD YYYY HH:mm');
-        function changeStatusInternal (){
+        function changeStatusInternal(){
+            if (this.status != "incomplete"){
+                return;
+            }
             let now = new Date();//date.format(new Date(),pattern); 
-            console.log(now);
-            console.log(this.creation);
-            let time = date.subtract(now, this.creation).toMilliseconds();           
-            this.status = `complete in ${time} minutes`;
+            let time = date.subtract(now, this.creation).toMinutes();        
+            this.status = `completed in ${time} minutes`;
             this.priority = 0;
         }
         return {
-            id: id,
+            id: internalId,
             action: action,
             esTime: esTime,
             priority: priority,
@@ -35,6 +41,29 @@ const ChoreLogicBundle = (()=>{
             changeStatusInternal,
         }
     };
+
+    let choresArrayDumb = [];
+    let choresArray = [];
+    let id = 0;
+    if (localStorage.getItem("to-do-data") == null) {
+        localStorage.setItem("to-do-data",JSON.stringify([]));
+        choresArrayDumb = JSON.parse(localStorage.getItem("to-do-data"));
+        
+    } else {
+        choresArrayDumb = JSON.parse(localStorage.getItem("to-do-data"));
+        if (choresArrayDumb.length == 0){
+            id = 0;
+        }else {
+            for (let i = 0; i < choresArrayDumb.length;i++ ){
+                if (choresArrayDumb[i].id>id){
+                    id = choresArrayDumb[i].id;
+                }
+                choresArray.push(ToDoFactory(choresArrayDumb[i].action, choresArrayDumb[i].esTime, choresArrayDumb[i].priority, choresArrayDumb[i].creation, choresArrayDumb[i].id, choresArrayDumb[i].status))
+            }
+        } 
+    }
+
+   
 
     function addChore (action,esTime,priority){
         let chore = ToDoFactory(action,esTime,priority);
@@ -52,6 +81,7 @@ const ChoreLogicBundle = (()=>{
             }
             return 0;
         });
+        localStorage.setItem("to-do-data",JSON.stringify(choresArray));
     }
 
     function changeStatus (id){
@@ -82,4 +112,4 @@ const ChoreLogicBundle = (()=>{
     }
 })();
 
-export {ChoreLogicBundle};
+export {ChoreLogic};
