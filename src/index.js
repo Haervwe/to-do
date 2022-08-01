@@ -1,6 +1,10 @@
 import { ChoreLogic } from "./logic";
 import date from "date-and-time";
 import "./style.scss";
+import autoAnimate from '@formkit/auto-animate'
+
+
+
 const container =  document.getElementById("mainContainer");
 let btnControl = true;
 function showChoresList () {
@@ -17,6 +21,7 @@ function showChoresList () {
     let list = document.createElement("ul");
     let addChoreBtn = document.createElement("button");
     list.id = "choresList";
+
     content.id = "choreListContainer";
     addChoreBtn.id = "newChoreBtn";
     addChoreBtn.innerText = "Add new To-Do";
@@ -155,22 +160,33 @@ function renderList (){
         choreStatus.innerText=`Status: ${ChoreLogic.choresArray[i].status}.`;
         choreStatus.className="choreStatus";
         let removeChore = document.createElement("button");
-        removeChore.class = "removeChore";
+        removeChore.className = "removeChore";
         removeChore.innerText = "Delete To-Do."
         //add buttons to manage each chore
         removeChore.addEventListener("click",()=>{
             if (btnControl == true) {
                 ChoreLogic.removeChore(ChoreLogic.choresArray[i].id);
-                renderList();
+                toDo.remove();
             }
         });
         let changeChore = document.createElement("button");
-        changeChore.class = "changeChore";
+        changeChore.className = "changeChore";
         changeChore.innerText = "Mark Complete."
         changeChore.addEventListener("click",()=>{
             if (btnControl == true) {
                 ChoreLogic.changeStatus(ChoreLogic.choresArray[i].id);
-                renderList();
+                let temp = document.createElement("li");
+                temp.className = "toDo";
+                chorePrio.innerText = `Priority: ${ChoreLogic.choresArray[i].priority}`;
+                choreStatus.innerText = `Status: ${ChoreLogic.choresArray[i].priority}`;
+                toDo.remove();
+                temp.appendChild(choreName);
+                temp.appendChild(choreTime);
+                temp.appendChild(chorePrio);
+                temp.appendChild(choreStatus);
+                temp.appendChild(choreCreation);
+                temp.appendChild(removeChore);
+                list.appendChild(temp);
             }
         });
         toDo.appendChild(choreName);
@@ -179,7 +195,9 @@ function renderList (){
         toDo.appendChild(choreStatus);
         toDo.appendChild(choreCreation);
         toDo.appendChild(removeChore);
-        toDo.appendChild(changeChore);
+        if (ChoreLogic.choresArray[i].priority > 0){
+            toDo.appendChild(changeChore);
+        }
         list.appendChild(toDo);
     }
 }
@@ -187,5 +205,6 @@ function renderList (){
 showChoresList();
 renderList();
 
-
+const listAn = document.getElementById('choresList')
+  autoAnimate(listAn);
 

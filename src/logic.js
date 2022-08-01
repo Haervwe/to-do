@@ -23,7 +23,7 @@ const ChoreLogic = (()=>{
         }
         //const pattern = date.compile('ddd, MMM DD YYYY HH:mm');
         function changeStatusInternal(){
-            if (this.status != "incomplete"){
+            if (this.status != "Incomplete"){
                 return;
             }
             let now = new Date();//date.format(new Date(),pattern); 
