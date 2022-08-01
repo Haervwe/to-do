@@ -63,7 +63,7 @@ function showNewChore (){
     choreTime.id = "choreTime";
     choreTime.type = "number";
     choreTime.placeholder = "60";
-    choreTime.Time = "choreTime";
+    choreTime.name = "choreTime";
     choreTimeContainer.appendChild(choreTimeLabel);
     choreTimeContainer.appendChild(choreTime);
     let chorePrioContainer = document.createElement("div");
@@ -75,7 +75,7 @@ function showNewChore (){
     chorePrio.id = "chorePrio";
     chorePrio.type = "number";
     chorePrio.placeholder = "5";
-    chorePrio.Prio = "chorePrio";
+    chorePrio.name = "chorePrio";
     chorePrioContainer.appendChild(chorePrioLabel);
     chorePrioContainer.appendChild(chorePrio);
     let btnContainer = document.createElement("div");
@@ -83,10 +83,12 @@ function showNewChore (){
     let formSubmit = document.createElement("button");
     formSubmit.innerText = "Add";
     formSubmit.className = "formBtn";
+    formSubmit.type = "button"
     formSubmit.addEventListener("click",addChore);
     let formCancel = document.createElement("button");
     formCancel.innerText = "Cancel";
     formCancel.className = "formBtn";
+    formCancel.type = "button";
     formCancel.addEventListener("click",()=>{
         form.remove();
     })
@@ -100,9 +102,67 @@ function showNewChore (){
 }
 
 function addChore () {
+    let form = document.getElementById("newChore");
+    if (form.choreName.value == "" || form.chorePrio.value == "" ||form.choreTime.value == ""){
+        showFormatError();
+    }
+    else {
+        ChoreLogic.addChore(form.choreName.value,form.choreTime.value,form.chorePrio.value);
+        console.log(ChoreLogic.choresArray);
+        form.remove();
+        renderList();
+    }
+}
+
+function showFormatError(){
 
 }
 
+function renderList (){
+    let list = document.getElementById("choresList");
+    list.innerHTML = "";
+    for (let i = 0;i<ChoreLogic.choresArray.length;i++){
+        let toDo = document.createElement("div");
+        toDo.className = "toDo";
+        let choreName = document.createElement("p");
+        choreName.innerText=`${ChoreLogic.choresArray[i].action}`;
+        choreName.className="choreName";
+        let choreTime = document.createElement("p");
+        choreTime.innerText=`Estimated time: ${ChoreLogic.choresArray[i].esTime} minutes.`;
+        choreTime.className="choreTime";
+        let chorePrio = document.createElement("p");
+        chorePrio.innerText=`Priority: ${ChoreLogic.choresArray[i].priority}`;
+        chorePrio.className="chorePrio";
+        let choreCreation = document.createElement("p");
+        choreCreation.innerText=`To Do added: ${ChoreLogic.choresArray[i].creation}.`;
+        choreCreation.className="choreCreation";
+        let choreStatus = document.createElement("p");
+        choreStatus.innerText=`Status: ${ChoreLogic.choresArray[i].status}.`;
+        choreStatus.className="choreStatus";
+        let removeChore = document.createElement("button");
+        removeChore.class = "removeChore";
+        removeChore.innerText = "Delete To-Do."
+        removeChore.addEventListener("click",()=>{
+            ChoreLogic.removeChore(ChoreLogic.choresArray[i].id);
+            renderList();
+        });
+        let changeChore = document.createElement("button");
+        changeChore.class = "changeChore";
+        changeChore.innerText = "Mark Complete."
+        changeChore.addEventListener("click",()=>{
+            ChoreLogic.changeStatus(ChoreLogic.choresArray[i].id);
+            renderList();
+        });
+        toDo.appendChild(choreName);
+        toDo.appendChild(choreTime);
+        toDo.appendChild(chorePrio);
+        toDo.appendChild(choreStatus);
+        toDo.appendChild(choreCreation);
+        toDo.appendChild(removeChore);
+        toDo.appendChild(changeChore);
+        list.appendChild(toDo);
+    }
+}
 showChoresList();
 
 /*
