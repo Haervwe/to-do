@@ -2,7 +2,7 @@ import date from "date-and-time";
 
 const ChoreLogic = (()=>{
     
-    const ToDoFactory = (action, esTime, priority, creation, previusid, previousStatus)=>{
+    const ToDoFactory = (action, esTime, priority, creation, previousid, previousStatus)=>{
         let internalId;
         let status;
         if (creation == null || creation == undefined){
@@ -10,14 +10,14 @@ const ChoreLogic = (()=>{
         }else {
             creation = new Date(creation);
         }
-        if(previusid == null || previusid == undefined){
+        if(previousid == null || previousid == undefined){
             id++;
             internalId = id;
         } else {
-            internalId = previusid;
+            internalId = previousid;
         }
         if(previousStatus == null || previousStatus == undefined){
-            status = "incomplete"
+            status = "Incomplete"
         } else {
             status = previousStatus;
         }
@@ -28,7 +28,7 @@ const ChoreLogic = (()=>{
             }
             let now = new Date();//date.format(new Date(),pattern); 
             let time = date.subtract(now, this.creation).toMinutes();        
-            this.status = `completed in ${time} minutes`;
+            this.status = `Completed in ${Math.floor(time)} minutes`;
             this.priority = 0;
         }
         return {

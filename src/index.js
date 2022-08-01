@@ -1,8 +1,8 @@
 import { ChoreLogic } from "./logic";
-
+import date from "date-and-time";
+import "./style.scss";
 const container =  document.getElementById("mainContainer");
-
-
+let btnControl = true;
 function showChoresList () {
     //header html injector.
     let header = document.createElement("div");
@@ -20,9 +20,14 @@ function showChoresList () {
     content.id = "choreListContainer";
     addChoreBtn.id = "newChoreBtn";
     addChoreBtn.innerText = "Add new To-Do";
-    addChoreBtn.addEventListener("click",showNewChore);
-    content.appendChild(addChoreBtn);
+    addChoreBtn.addEventListener("click",()=>{
+        if (btnControl == true) {
+            btnControl = false;
+            showNewChore()
+        } 
+    });
     content.appendChild(list);
+    content.appendChild(addChoreBtn);
     container.appendChild(content);
     //Footer injector
     let footer = document.createElement("div");
@@ -35,6 +40,7 @@ function showChoresList () {
 }
 
 function showNewChore (){
+    //show form to input the new chore
     let form = document.createElement("form");
     form.id = "newChore";
     form.method = "get";
@@ -78,19 +84,23 @@ function showNewChore (){
     chorePrio.name = "chorePrio";
     chorePrioContainer.appendChild(chorePrioLabel);
     chorePrioContainer.appendChild(chorePrio);
+    //add buttons to the chore form
     let btnContainer = document.createElement("div");
     btnContainer.id = "btnContainer";
     let formSubmit = document.createElement("button");
     formSubmit.innerText = "Add";
     formSubmit.className = "formBtn";
     formSubmit.type = "button"
-    formSubmit.addEventListener("click",addChore);
+    formSubmit.addEventListener("click",()=>{
+        addChore();
+    });
     let formCancel = document.createElement("button");
     formCancel.innerText = "Cancel";
     formCancel.className = "formBtn";
     formCancel.type = "button";
     formCancel.addEventListener("click",()=>{
         form.remove();
+        btnControl = true;
     })
     btnContainer.appendChild(formSubmit);
     btnContainer.appendChild(formCancel);
@@ -111,30 +121,35 @@ function addChore () {
         console.log(ChoreLogic.choresArray);
         form.remove();
         renderList();
+        btnControl = true;
     }
 }
 
 function showFormatError(){
-
+    alert("Please fill all the Boxes");
 }
 
 function renderList (){
+    //resets the list and redraws the entire list in the new order
     let list = document.getElementById("choresList");
     list.innerHTML = "";
+    const pattern = date.compile('ddd, MMM DD YYYY HH:mm');
     for (let i = 0;i<ChoreLogic.choresArray.length;i++){
-        let toDo = document.createElement("div");
+        //create a new div for every chore in the array
+        let toDo = document.createElement("li");
         toDo.className = "toDo";
         let choreName = document.createElement("p");
-        choreName.innerText=`${ChoreLogic.choresArray[i].action}`;
+        choreName.innerText=`To-Do: ${ChoreLogic.choresArray[i].action}`;
         choreName.className="choreName";
         let choreTime = document.createElement("p");
-        choreTime.innerText=`Estimated time: ${ChoreLogic.choresArray[i].esTime} minutes.`;
+        choreTime.innerText=`Estimated time: ${Math.floor(ChoreLogic.choresArray[i].esTime)} minutes.`;
         choreTime.className="choreTime";
         let chorePrio = document.createElement("p");
         chorePrio.innerText=`Priority: ${ChoreLogic.choresArray[i].priority}`;
         chorePrio.className="chorePrio";
         let choreCreation = document.createElement("p");
-        choreCreation.innerText=`To Do added: ${ChoreLogic.choresArray[i].creation}.`;
+        let creation = date.format(ChoreLogic.choresArray[i].creation,pattern)
+        choreCreation.innerText=`To Do added: ${creation}.`;
         choreCreation.className="choreCreation";
         let choreStatus = document.createElement("p");
         choreStatus.innerText=`Status: ${ChoreLogic.choresArray[i].status}.`;
@@ -142,16 +157,21 @@ function renderList (){
         let removeChore = document.createElement("button");
         removeChore.class = "removeChore";
         removeChore.innerText = "Delete To-Do."
+        //add buttons to manage each chore
         removeChore.addEventListener("click",()=>{
-            ChoreLogic.removeChore(ChoreLogic.choresArray[i].id);
-            renderList();
+            if (btnControl == true) {
+                ChoreLogic.removeChore(ChoreLogic.choresArray[i].id);
+                renderList();
+            }
         });
         let changeChore = document.createElement("button");
         changeChore.class = "changeChore";
         changeChore.innerText = "Mark Complete."
         changeChore.addEventListener("click",()=>{
-            ChoreLogic.changeStatus(ChoreLogic.choresArray[i].id);
-            renderList();
+            if (btnControl == true) {
+                ChoreLogic.changeStatus(ChoreLogic.choresArray[i].id);
+                renderList();
+            }
         });
         toDo.appendChild(choreName);
         toDo.appendChild(choreTime);
@@ -163,25 +183,9 @@ function renderList (){
         list.appendChild(toDo);
     }
 }
-showChoresList();
 
-/*
-ChoreLogic.addChore("test","0sec","1");
-ChoreLogic.addChore("test","0sec","1");
-ChoreLogic.addChore("test","0sec","1");
-ChoreLogic.addChore("test","0sec","1");
-ChoreLogic.addChore("test","0sec","1");
-ChoreLogic.addChore("test","0sec","1");
-ChoreLogic.addChore("test","0sec","1");
-ChoreLogic.addChore("test","0sec","1");
-ChoreLogic.addChore("test","0sec","1");
-ChoreLogic.addChore("test","0sec","1");
-ChoreLogic.addChore("test","0sec","1");
-ChoreLogic.removeChore(3);
-ChoreLogic.changeStatus(5);
-ChoreLogic.removeChore(10);
-console.log(ChoreLogic.choresArray);
-*/
+showChoresList();
+renderList();
 
 
 

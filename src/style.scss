@@ -1,0 +1,28 @@
+body{
+    margin: 0px;
+    padding: 0px;
+}
+#mainContainer {
+    display: grid;
+    margin: 0px;
+    padding: 0px;
+    grid-template-rows: 7vh 86vh 7vh;
+    justify-items: center;
+    align-content: center;
+    #choreListContainer {
+        display: grid;
+        grid-template-rows: 95% 5%;
+    }
+    #newChore{
+        display: grid;
+        position: fixed;
+        height: 300px;
+        width: 500px;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+    }
+}
+
