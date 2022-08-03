@@ -23,7 +23,6 @@ function showChoresList () {
     list.id = "choresList";
     content.id = "choreListContainer";
     addChoreBtn.id = "newChoreBtn";
-    addChoreBtn.innerText = "Add new To-Do";
     addChoreBtn.addEventListener("click",()=>{
         if (btnControl == true) {
             btnControl = false;
@@ -147,7 +146,7 @@ function renderToDo (id){
     choreTime.innerText=`Estimated time: ${Math.floor(ChoreLogic.choresArray[getIndex(id)].esTime)} minutes.`;
     choreTime.className="choreTime";
     let chorePrio = document.createElement("p");
-    chorePrio.innerText=`Priority: ${ChoreLogic.choresArray[getIndex(id)].priority}`;
+    chorePrio.innerText=`Priority: ${ChoreLogic.choresArray[getIndex(id)].priority}.`;
     chorePrio.className="chorePrio";
     let choreCreation = document.createElement("p");
     let creation = date.format(ChoreLogic.choresArray[getIndex(id)].creation,pattern)
@@ -158,7 +157,6 @@ function renderToDo (id){
     choreStatus.className="choreStatus";
     let removeChore = document.createElement("button");
     removeChore.className = "removeChore";
-    removeChore.innerText = "Delete To-Do.";
     //add buttons to manage the to do
     removeChore.addEventListener("click",()=>{
         if (btnControl == true) {
@@ -168,13 +166,12 @@ function renderToDo (id){
     })
     let changeChore = document.createElement("button");
     changeChore.className = "changeChore";
-    changeChore.innerText = "Mark Complete.";
     changeChore.addEventListener("click",()=>{
         if (btnControl == true) {
             ChoreLogic.changeStatus(id)
             let temp = document.createElement("li");
             temp.className = "toDo";
-            chorePrio.innerText = `Priority: ${ChoreLogic.choresArray[getIndex(id)].priority}`;
+            chorePrio.innerText = `Priority: ${ChoreLogic.choresArray[getIndex(id)].priority}.`;
             choreStatus.innerText = `Status: ${ChoreLogic.choresArray[getIndex(id)].status}`;
             removeChore.addEventListener("click",()=>{
                 if (btnControl == true) {
