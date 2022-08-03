@@ -4,7 +4,6 @@ import "./style.scss";
 import autoAnimate from '@formkit/auto-animate'
 
 
-
 const container =  document.getElementById("mainContainer");
 let btnControl = true;
 function showChoresList () {
@@ -91,15 +90,13 @@ function showNewChore (){
     let btnContainer = document.createElement("div");
     btnContainer.id = "btnContainer";
     let formSubmit = document.createElement("button");
-    formSubmit.innerText = "Add";
-    formSubmit.className = "formBtn";
+    formSubmit.className = "formBtn submit";
     formSubmit.type = "button";
     formSubmit.addEventListener("click",()=>{
         addChore();
     });
     let formCancel = document.createElement("button");
-    formCancel.innerText = "Cancel";
-    formCancel.className = "formBtn";
+    formCancel.className = "formBtn cancel";
     formCancel.type = "button";
     formCancel.addEventListener("click",()=>{
         form.remove();

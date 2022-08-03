@@ -45,6 +45,12 @@ body{
             transform: rotate(45deg);
             border-radius: 100%;
         }
+        #newChoreBtn:active{
+            transform: scale(0.9) rotate(45deg);
+        }
+        #newChoreBtn:active:after{
+            transform: scale(1.1);
+        }
         #choresList {
             list-style: none;
             align-content: center;
@@ -101,6 +107,12 @@ body{
                     grid-column: 3;
                     grid-row: 1;
                 }
+                .changeChore:active{
+                    transform: scale(0.9);
+                }
+                .changeChore:active:after{
+                    transform: scale(1.1);
+                }
                 .removeChore{
                     background-image: url(./x.png);
                     background-size: contain;
@@ -115,6 +127,12 @@ body{
                     background-color: $redColor;
                     grid-column: 3;
                     grid-row: 3;
+                }
+                .removeChore:active{
+                    transform: scale(0.9);
+                }
+                .removeChore:active:after{
+                    transform: scale(1.1);
                 }
             }
         }
@@ -133,5 +151,47 @@ body{
         top: 0;
         bottom: 0;
         margin: auto;
+        .submit{
+            background-image: url(./check.png);
+            background-size: contain;
+            height: 30px;
+            width: 30px;
+            margin: 0px;
+            padding: 0px;
+            background-size: 20px;
+            background-repeat: no-repeat;
+            background-position: center;
+            border-radius: 100%;
+            background-color: $greenColor;
+            grid-column: 3;
+            grid-row: 1;
+        }
+        .submit:active{
+            transform: scale(0.9);
+        }
+        .submit:active:after{
+            transform: scale(1.1);
+        }
+        .cancel{
+            background-image: url(./x.png);
+            background-size: contain;
+            background-size: 15px;
+            background-repeat: no-repeat;
+            background-position: center;
+            margin: 0px;
+            padding: 0px;
+            height: 30px;
+            width: 30px;
+            border-radius: 100%;
+            background-color: $redColor;
+            grid-column: 3;
+            grid-row: 3;
+        }
+        .cancel:active{
+            transform: scale(0.9);
+        }
+        .cancel:active:after{
+            transform: scale(1.1);
+        }
     }
 }
