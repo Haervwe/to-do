@@ -23,7 +23,7 @@ body{
             width: 100%;
             grid-auto-rows: minmax(80px,15%);
             overflow-y: scroll;
-            .toDo{
+            .toDo {
                 display: grid;
                 background-color: aqua;
                 border-radius: 15px;
@@ -50,7 +50,7 @@ body{
                     grid-column: 2;
                     grid-row: 1;
                 }
-                .choreCreation {
+                .choreCreation{
                     grid-column: 2;
                     grid-row: 2;
                 }
@@ -68,6 +68,7 @@ body{
     #newChore{
         display: grid;
         position: fixed;
+        background-color: aqua;
         height: 300px;
         width: 500px;
         left: 0;
@@ -77,4 +78,3 @@ body{
         margin: auto;
     }
 }
-

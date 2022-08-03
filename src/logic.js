@@ -69,6 +69,7 @@ const ChoreLogic = (()=>{
         let chore = ToDoFactory(action,esTime,priority);
         choresArray.push(chore);
         orderByPriority()
+        return chore.id;
     }
 
     function orderByPriority(){
