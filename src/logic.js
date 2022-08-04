@@ -1,116 +1,128 @@
 import date from "date-and-time";
 
-const ChoreLogic = (()=>{
-    
-    const ToDoFactory = (action, esTime, priority, creation, previousid, previousStatus)=>{
-        let internalId;
-        let status;
-        if (creation == null || creation == undefined){
-            creation = new Date();
-        }else {
-            creation = new Date(creation);
-        }
-        if(previousid == null || previousid == undefined){
-            id++;
-            internalId = id;
-        } else {
-            internalId = previousid;
-        }
-        if(previousStatus == null || previousStatus == undefined){
-            status = "Incomplete";
-        } else {
-            status = previousStatus;
-        }
-        //const pattern = date.compile('ddd, MMM DD YYYY HH:mm');
-        function changeStatusInternal(){
-            if (this.status != "Incomplete"){
-                return;
-            }
-            let now = new Date();//date.format(new Date(),pattern); 
-            let time = date.subtract(now, this.creation).toMinutes();        
-            this.status = `Completed in ${Math.floor(time)} minutes`;
-            this.priority = 0;
-        }
-        return {
-            id: internalId,
-            action: action,
-            esTime: esTime,
-            priority: priority,
-            creation: creation,
-            status: status,
-            changeStatusInternal,
-        };
-    };
-
-    let choresArrayDumb = [];
-    let choresArray = [];
-    let id = 0;
-    if (localStorage.getItem("to-do-data") == null) {
-        localStorage.setItem("to-do-data",JSON.stringify([]));
-        choresArrayDumb = JSON.parse(localStorage.getItem("to-do-data"));
-        
+const ChoreLogic = (() => {
+  const ToDoFactory = (
+    action,
+    esTime,
+    priority,
+    creation,
+    previousid,
+    previousStatus
+  ) => {
+    let internalId;
+    let status;
+    if (creation == null || creation == undefined) {
+      creation = new Date();
     } else {
-        choresArrayDumb = JSON.parse(localStorage.getItem("to-do-data"));
-        if (choresArrayDumb.length == 0){
-            id = 0;
-        }else {
-            for (let i = 0; i < choresArrayDumb.length;i++ ){
-                if (choresArrayDumb[i].id>id){
-                    id = choresArrayDumb[i].id;
-                }
-                choresArray.push(ToDoFactory(choresArrayDumb[i].action, choresArrayDumb[i].esTime, choresArrayDumb[i].priority, choresArrayDumb[i].creation, choresArrayDumb[i].id, choresArrayDumb[i].status));
-            }
-        } 
+      creation = new Date(creation);
     }
-
-   
-
-    function addChore (action,esTime,priority){
-        let chore = ToDoFactory(action,esTime,priority);
-        choresArray.push(chore);
-        orderByPriority();
-        return chore.id;
+    if (previousid == null || previousid == undefined) {
+      id++;
+      internalId = id;
+    } else {
+      internalId = previousid;
     }
-
-    function orderByPriority(){
-        choresArray = choresArray.sort((a,b)=>{
-            if (a.priority < b.priority) {
-                return 1;
-            }
-            if (a.priority > b.priority){
-                return -1;
-            }
-            return 0;
-        });
-        localStorage.setItem("to-do-data",JSON.stringify(choresArray));
+    if (previousStatus == null || previousStatus == undefined) {
+      status = "Incomplete";
+    } else {
+      status = previousStatus;
     }
-
-    function changeStatus (id){
-        for(let i = 0;i<choresArray.length;i++){
-            if (id == choresArray[i].id){
-                choresArray[i].changeStatusInternal();
-                orderByPriority();
-                return;
-            }
-        }
+    //const pattern = date.compile('ddd, MMM DD YYYY HH:mm');
+    function changeStatusInternal() {
+      if (this.status != "Incomplete") {
+        return;
+      }
+      let now = new Date(); //date.format(new Date(),pattern);
+      let time = date.subtract(now, this.creation).toMinutes();
+      this.status = `Completed in ${Math.floor(time)} minutes`;
+      this.priority = 0;
     }
-
-    function removeChore (id){
-        for (let i = 0; i<choresArray.length;i++){
-            if (id == choresArray[i].id){
-                choresArray.splice(i,1);
-                orderByPriority();
-                return;
-            }
-        }
-    }
-    
     return {
-        choresArray,
-        addChore,
-        removeChore,
-        changeStatus,
+      id: internalId,
+      action: action,
+      esTime: esTime,
+      priority: priority,
+      creation: creation,
+      status: status,
+      changeStatusInternal,
     };
+  };
+
+  let choresArrayDumb = [];
+  let choresArray = [];
+  let id = 0;
+  if (localStorage.getItem("to-do-data") == null) {
+    localStorage.setItem("to-do-data", JSON.stringify([]));
+    choresArrayDumb = JSON.parse(localStorage.getItem("to-do-data"));
+  } else {
+    choresArrayDumb = JSON.parse(localStorage.getItem("to-do-data"));
+    if (choresArrayDumb.length == 0) {
+      id = 0;
+    } else {
+      for (let i = 0; i < choresArrayDumb.length; i++) {
+        if (choresArrayDumb[i].id > id) {
+          id = choresArrayDumb[i].id;
+        }
+        choresArray.push(
+          ToDoFactory(
+            choresArrayDumb[i].action,
+            choresArrayDumb[i].esTime,
+            choresArrayDumb[i].priority,
+            choresArrayDumb[i].creation,
+            choresArrayDumb[i].id,
+            choresArrayDumb[i].status
+          )
+        );
+      }
+    }
+  }
+
+  function addChore(action, esTime, priority) {
+    let chore = ToDoFactory(action, esTime, priority);
+    choresArray.push(chore);
+    orderByPriority();
+    return chore.id;
+  }
+
+  function orderByPriority() {
+    choresArray = choresArray.sort((a, b) => {
+      if (a.priority < b.priority) {
+        return 1;
+      }
+      if (a.priority > b.priority) {
+        return -1;
+      }
+      return 0;
+    });
+    localStorage.setItem("to-do-data", JSON.stringify(choresArray));
+  }
+
+  function changeStatus(id) {
+    for (let i = 0; i < choresArray.length; i++) {
+      if (id == choresArray[i].id) {
+        choresArray[i].changeStatusInternal();
+        orderByPriority();
+        return;
+      }
+    }
+  }
+
+  function removeChore(id) {
+    for (let i = 0; i < choresArray.length; i++) {
+      if (id == choresArray[i].id) {
+        choresArray.splice(i, 1);
+        orderByPriority();
+        return;
+      }
+    }
+  }
+
+  return {
+    choresArray,
+    addChore,
+    removeChore,
+    changeStatus,
+  };
 })();
 
-export {ChoreLogic};
+export { ChoreLogic };
