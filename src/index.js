@@ -1,7 +1,7 @@
 import { ChoreLogic } from "./logic";
 import date from "date-and-time";
 import "./style.scss";
-import autoAnimate from '@formkit/auto-animate'
+import autoAnimate from "@formkit/auto-animate";
 
 
 const container =  document.getElementById("mainContainer");
@@ -10,7 +10,7 @@ function showChoresList () {
     //header html injector.
     let header = document.createElement("div");
     let headerText = document.createElement("h1");
-    header.id = "header"
+    header.id = "header";
     headerText.innerText = "To-Do List";
     headerText.class = "title";
     header.appendChild(headerText);
@@ -25,7 +25,7 @@ function showChoresList () {
     addChoreBtn.addEventListener("click",()=>{
         if (btnControl == true) {
             btnControl = false;
-            showNewChore()
+            showNewChore();
         } 
     });
     content.appendChild(list);
@@ -48,7 +48,7 @@ function showNewChore (){
     form.method = "get";
     form.action = "";
     let formTitle = document.createElement("h3");
-    formTitle.innerText = "New To-Do:"
+    formTitle.innerText = "New To-Do:";
     form.appendChild(formTitle);
     let choreNameContainer = document.createElement("div");
     choreNameContainer.id = "choreNameContainer";
@@ -66,7 +66,7 @@ function showNewChore (){
     choreTimeContainer.id = "choreTimeContainer";
     let choreTimeLabel = document.createElement("label");
     choreTimeLabel.for = "choreTime";
-    choreTimeLabel.innerText = "Estimated time (in minutes):"
+    choreTimeLabel.innerText = "Estimated time (in minutes):";
     let choreTime = document.createElement("input");
     choreTime.id = "choreTime";
     choreTime.type = "number";
@@ -78,7 +78,7 @@ function showNewChore (){
     chorePrioContainer.id = "chorePrioContainer";
     let chorePrioLabel = document.createElement("label");
     chorePrioLabel.for = "chorePrio";
-    chorePrioLabel.innerText = "Priority in number:"
+    chorePrioLabel.innerText = "Priority in number:";
     let chorePrio = document.createElement("input");
     chorePrio.id = "chorePrio";
     chorePrio.type = "number";
@@ -134,7 +134,7 @@ function showFormatError(){
 
 function renderToDo (id){
     console.log(ChoreLogic.choresArray[getIndex(id)]);
-    const pattern = date.compile('ddd, MMM DD YYYY HH:mm');
+    const pattern = date.compile("ddd, MMM DD YYYY HH:mm");
     let list = document.getElementById("choresList");
     //create a new div and elements for the to do
     let toDo = document.createElement("li");
@@ -149,7 +149,7 @@ function renderToDo (id){
     chorePrio.innerText=`Priority: ${ChoreLogic.choresArray[getIndex(id)].priority}.`;
     chorePrio.className="chorePrio";
     let choreCreation = document.createElement("p");
-    let creation = date.format(ChoreLogic.choresArray[getIndex(id)].creation,pattern)
+    let creation = date.format(ChoreLogic.choresArray[getIndex(id)].creation,pattern);
     choreCreation.innerText=`To Do added: ${creation}.`;
     choreCreation.className="choreCreation";
     let choreStatus = document.createElement("p");
@@ -163,12 +163,12 @@ function renderToDo (id){
             ChoreLogic.removeChore(id);
             toDo.remove();
         }
-    })
+    });
     let changeChore = document.createElement("button");
     changeChore.className = "changeChore";
     changeChore.addEventListener("click",()=>{
         if (btnControl == true) {
-            ChoreLogic.changeStatus(id)
+            ChoreLogic.changeStatus(id);
             let temp = document.createElement("li");
             temp.className = "toDo";
             chorePrio.innerText = `Priority: ${ChoreLogic.choresArray[getIndex(id)].priority}.`;
@@ -179,7 +179,7 @@ function renderToDo (id){
                     ChoreLogic.removeChore(ChoreLogic.choresArray[getIndex(id)].id);
                     temp.remove();
                 }
-            })
+            });
             toDo.remove();
             temp.appendChild(choreName);
             temp.appendChild(choreTime);
@@ -225,5 +225,5 @@ function renderList (){
 showChoresList();
 renderList();
 
-const listAn = document.getElementById('choresList');
+const listAn = document.getElementById("choresList");
 autoAnimate(listAn);

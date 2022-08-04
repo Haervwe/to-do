@@ -17,7 +17,7 @@ const ChoreLogic = (()=>{
             internalId = previousid;
         }
         if(previousStatus == null || previousStatus == undefined){
-            status = "Incomplete"
+            status = "Incomplete";
         } else {
             status = previousStatus;
         }
@@ -39,7 +39,7 @@ const ChoreLogic = (()=>{
             creation: creation,
             status: status,
             changeStatusInternal,
-        }
+        };
     };
 
     let choresArrayDumb = [];
@@ -58,7 +58,7 @@ const ChoreLogic = (()=>{
                 if (choresArrayDumb[i].id>id){
                     id = choresArrayDumb[i].id;
                 }
-                choresArray.push(ToDoFactory(choresArrayDumb[i].action, choresArrayDumb[i].esTime, choresArrayDumb[i].priority, choresArrayDumb[i].creation, choresArrayDumb[i].id, choresArrayDumb[i].status))
+                choresArray.push(ToDoFactory(choresArrayDumb[i].action, choresArrayDumb[i].esTime, choresArrayDumb[i].priority, choresArrayDumb[i].creation, choresArrayDumb[i].id, choresArrayDumb[i].status));
             }
         } 
     }
@@ -68,7 +68,7 @@ const ChoreLogic = (()=>{
     function addChore (action,esTime,priority){
         let chore = ToDoFactory(action,esTime,priority);
         choresArray.push(chore);
-        orderByPriority()
+        orderByPriority();
         return chore.id;
     }
 
@@ -89,7 +89,7 @@ const ChoreLogic = (()=>{
         for(let i = 0;i<choresArray.length;i++){
             if (id == choresArray[i].id){
                 choresArray[i].changeStatusInternal();
-                orderByPriority()
+                orderByPriority();
                 return;
             }
         }
@@ -99,7 +99,7 @@ const ChoreLogic = (()=>{
         for (let i = 0; i<choresArray.length;i++){
             if (id == choresArray[i].id){
                 choresArray.splice(i,1);
-                orderByPriority()
+                orderByPriority();
                 return;
             }
         }
@@ -110,7 +110,7 @@ const ChoreLogic = (()=>{
         addChore,
         removeChore,
         changeStatus,
-    }
+    };
 })();
 
 export {ChoreLogic};
