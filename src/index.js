@@ -102,18 +102,21 @@ function showNewChore (){
         form.remove();
         btnControl = true;
     });
+    let inputContainer = document.createElement("div");
+    inputContainer.id = "inputContainer";
     btnContainer.appendChild(formSubmit);
     btnContainer.appendChild(formCancel);
-    form.appendChild(choreNameContainer);
-    form.appendChild(choreTimeContainer);
-    form.appendChild(chorePrioContainer);
+    inputContainer.appendChild(choreNameContainer);
+    inputContainer.appendChild(choreTimeContainer);
+    inputContainer.appendChild(chorePrioContainer);
+    form.appendChild(inputContainer);
     form.appendChild(btnContainer);
     container.appendChild(form);
 }
 
 function addChore () {
     let form = document.getElementById("newChore");
-    if (form.choreName.value == "" || form.chorePrio.value == "" ||form.choreTime.value == ""){
+    if (form.choreName.value == "" || form.chorePrio.value == "" ||form.choreTime.value == ""|| form.chorePrio.value <=0 ||form.choreTime.value <= 0){
         showFormatError();
     }
     else {
@@ -126,7 +129,7 @@ function addChore () {
 }
 
 function showFormatError(){
-    alert("Please fill all the Boxes");
+    alert("Please fill all the Boxes with the correct values (only positive numbers)");
 }
 
 function renderToDo (id){

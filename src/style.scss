@@ -29,14 +29,17 @@ body{
     align-content: center;
     #choreListContainer {
         display: grid;
-        grid-template-rows: 95% 5%;
+        grid-template-rows: 80vh 6vh;
         padding: 0%;
         width: 100%;
-        height: 100%;
+        height: 86vh;
+        overflow-x: unset;
         justify-items: center;
         #newChoreBtn{
             height: 50px;
             width: 50px;
+            position: absolute;
+            top: 90%;
             background-color: #3A6351;
             background-image: url(./x.png);
             background-size: 30px;
@@ -52,12 +55,14 @@ body{
             transform: scale(1.1);
         }
         #choresList {
+            grid-column: 1/3;
             list-style: none;
             align-content: center;
             padding: 0%;
-            display: grid;
+            min-height: 0px;
+            height: 86vh;
             width: 100%;
-            grid-auto-rows: minmax(80px,15%);
+            grid-auto-rows: minmax(120px,15%);
             overflow-y: scroll;
             .toDo {
                 display: grid;
@@ -68,6 +73,7 @@ body{
                 margin: 5px;
                 grid-template-columns: 7fr 7fr 1fr;
                 grid-template-rows: 1fr 1fr 1fr;
+                box-shadow: 2px 2px black;
                 p{
                     margin: 0px;
                 }
@@ -151,47 +157,74 @@ body{
         top: 0;
         bottom: 0;
         margin: auto;
-        .submit{
-            background-image: url(./check.png);
-            background-size: contain;
-            height: 30px;
-            width: 30px;
-            margin: 0px;
-            padding: 0px;
-            background-size: 20px;
-            background-repeat: no-repeat;
-            background-position: center;
-            border-radius: 100%;
-            background-color: $greenColor;
-            grid-column: 3;
-            grid-row: 1;
+        box-shadow: 2px 2px black;
+        #inputContainer{
+            display: flex;
+            flex-direction: column;
+            input{
+                justify-self: flex-end;
+                background-color: #F2EDD7;
+            }
+            #chorePrioContainer{
+                display: flex;
+                justify-content: space-between;
+            }
+            #choreNameContainer{
+                display: flex;
+                justify-content: space-between;
+            }
+            #choreTimeContainer{
+                display: flex;
+                justify-content: space-between;
+            }
+            
         }
-        .submit:active{
-            transform: scale(0.9);
-        }
-        .submit:active:after{
-            transform: scale(1.1);
-        }
-        .cancel{
-            background-image: url(./x.png);
-            background-size: contain;
-            background-size: 15px;
-            background-repeat: no-repeat;
-            background-position: center;
-            margin: 0px;
-            padding: 0px;
-            height: 30px;
-            width: 30px;
-            border-radius: 100%;
-            background-color: $redColor;
-            grid-column: 3;
-            grid-row: 3;
-        }
-        .cancel:active{
-            transform: scale(0.9);
-        }
-        .cancel:active:after{
-            transform: scale(1.1);
+        #btnContainer{
+            display: flex;
+            justify-content: space-evenly;
+            margin-top: 20px;
+            .submit{
+                background-image: url(./check.png);
+                background-size: contain;
+                height: 30px;
+                width: 30px;
+                margin: 0px;
+                padding: 0px;
+                background-size: 20px;
+                background-repeat: no-repeat;
+                background-position: center;
+                border-radius: 100%;
+                background-color: $greenColor;
+                grid-column: 3;
+                grid-row: 1;
+            }
+            .submit:active{
+                transform: scale(0.9);
+            }
+            .submit:active:after{
+                transform: scale(1.1);
+            }
+            .cancel{
+                background-image: url(./x.png);
+                background-size: contain;
+                background-size: 15px;
+                background-repeat: no-repeat;
+                background-position: center;
+                margin: 0px;
+                padding: 0px;
+                height: 30px;
+                width: 30px;
+                border-radius: 100%;
+                background-color: $redColor;
+                grid-column: 3;
+                grid-row: 3;
+            }
+            .cancel:active{
+                transform: scale(0.9);
+            }
+            .cancel:active:after{
+                transform: scale(1.1);
+            }
         }
     }
 }
